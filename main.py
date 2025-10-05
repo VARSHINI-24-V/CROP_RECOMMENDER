@@ -48,6 +48,14 @@ STATE_LANGUAGE_MAP = {
     'Assam': 'assamese',
     'Odisha': 'odia',
     'Goa': 'konkani',
+    'Arunachal Pradesh': 'english',
+    'Manipur': 'english',
+    'Meghalaya': 'english',
+    'Mizoram': 'english',
+    'Nagaland': 'english',
+    'Sikkim': 'english',
+    'Tripura': 'bengali',
+    'Ladakh': 'hindi',
 }
 
 # Language display names
@@ -67,70 +75,28 @@ LANGUAGES = {
     'konkani': {'name': 'Konkani', 'native': 'कोंकणी'},
 }
 
-# Indian States with Districts
+# Complete Indian States with Districts - ALL 31 States and UTs
 INDIAN_STATES_DISTRICTS = {
     'Andhra Pradesh': {
         'climate': 'Tropical, hot and humid',
         'major_crops': ['rice', 'cotton', 'sugarcane', 'tobacco', 'pulses'],
         'soil_types': ['red', 'black', 'alluvial'],
         'rainfall': '900-1200mm',
-        'districts': ['Anantapur', 'Chittoor', 'East Godavari', 'Guntur', 'Krishna', 'Kurnool', 'Prakasam', 'Srikakulam', 'Visakhapatnam', 'Vizianagaram', 'West Godavari', 'YSR Kadapa']
+        'districts': ['Anantapur', 'Chittoor', 'East Godavari', 'Guntur', 'Krishna', 'Kurnool', 'Prakasam', 'Srikakulam', 'Visakhapatnam', 'Vizianagaram', 'West Godavari', 'YSR Kadapa', 'Nellore']
     },
-    'Tamil Nadu': {
-        'climate': 'Tropical',
-        'major_crops': ['rice', 'sugarcane', 'cotton', 'groundnut', 'millets'],
-        'soil_types': ['red', 'black', 'alluvial'],
-        'rainfall': '900-1400mm',
-        'districts': ['Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 'Dindigul', 'Erode', 'Kanchipuram', 'Kanyakumari', 'Karur', 'Krishnagiri', 'Madurai', 'Nagapattinam', 'Namakkal', 'Nilgiris', 'Perambalur', 'Pudukkottai', 'Ramanathapuram', 'Salem', 'Sivaganga', 'Thanjavur', 'Theni', 'Thoothukudi', 'Tiruchirappalli', 'Tirunelveli', 'Tiruppur', 'Tiruvallur', 'Tiruvannamalai', 'Tiruvarur', 'Vellore', 'Viluppuram', 'Virudhunagar']
+    'Arunachal Pradesh': {
+        'climate': 'Subtropical to alpine',
+        'major_crops': ['rice', 'maize', 'millet', 'wheat', 'pulses'],
+        'soil_types': ['alluvial', 'red'],
+        'rainfall': '2000-4000mm',
+        'districts': ['Tawang', 'West Kameng', 'East Kameng', 'Papum Pare', 'Kurung Kumey', 'Kra Daadi', 'Lower Subansiri', 'Upper Subansiri', 'West Siang', 'East Siang', 'Siang', 'Upper Siang', 'Lower Siang', 'Lower Dibang Valley', 'Dibang Valley', 'Anjaw', 'Lohit', 'Namsai', 'Changlang', 'Tirap', 'Longding']
     },
-    'Karnataka': {
-        'climate': 'Tropical to semi-arid',
-        'major_crops': ['rice', 'ragi', 'jowar', 'cotton', 'sugarcane'],
-        'soil_types': ['red', 'black', 'laterite'],
-        'rainfall': '600-3000mm',
-        'districts': ['Bagalkot', 'Ballari', 'Belagavi', 'Bengaluru Rural', 'Bengaluru Urban', 'Bidar', 'Chamarajanagar', 'Chikkaballapur', 'Chikkamagaluru', 'Chitradurga', 'Dakshina Kannada', 'Davanagere', 'Dharwad', 'Gadag', 'Hassan', 'Haveri', 'Kalaburagi', 'Kodagu', 'Kolar', 'Koppal', 'Mandya', 'Mysuru', 'Raichur', 'Ramanagara', 'Shivamogga', 'Tumakuru', 'Udupi', 'Uttara Kannada', 'Vijayapura', 'Yadgir']
-    },
-    'Maharashtra': {
-        'climate': 'Tropical to semi-arid',
-        'major_crops': ['cotton', 'sugarcane', 'rice', 'wheat', 'pulses'],
-        'soil_types': ['black', 'red', 'laterite'],
-        'rainfall': '400-3000mm',
-        'districts': ['Ahmednagar', 'Akola', 'Amravati', 'Aurangabad', 'Beed', 'Bhandara', 'Buldhana', 'Chandrapur', 'Dhule', 'Gadchiroli', 'Gondia', 'Hingoli', 'Jalgaon', 'Jalna', 'Kolhapur', 'Latur', 'Mumbai City', 'Mumbai Suburban', 'Nagpur', 'Nanded', 'Nandurbar', 'Nashik', 'Osmanabad', 'Palghar', 'Parbhani', 'Pune', 'Raigad', 'Ratnagiri', 'Sangli', 'Satara', 'Sindhudurg', 'Solapur', 'Thane', 'Wardha', 'Washim', 'Yavatmal']
-    },
-    'Punjab': {
-        'climate': 'Semi-arid to sub-humid',
-        'major_crops': ['wheat', 'rice', 'cotton', 'sugarcane', 'maize'],
-        'soil_types': ['alluvial'],
-        'rainfall': '400-600mm',
-        'districts': ['Amritsar', 'Barnala', 'Bathinda', 'Faridkot', 'Fatehgarh Sahib', 'Fazilka', 'Ferozepur', 'Gurdaspur', 'Hoshiarpur', 'Jalandhar', 'Kapurthala', 'Ludhiana', 'Mansa', 'Moga', 'Mohali', 'Muktsar', 'Pathankot', 'Patiala', 'Rupnagar', 'Sangrur', 'Shaheed Bhagat Singh Nagar', 'Tarn Taran']
-    },
-    'Uttar Pradesh': {
-        'climate': 'Subtropical',
-        'major_crops': ['wheat', 'rice', 'sugarcane', 'potato', 'pulses'],
-        'soil_types': ['alluvial'],
-        'rainfall': '600-1200mm',
-        'districts': ['Agra', 'Aligarh', 'Prayagraj', 'Ambedkar Nagar', 'Amethi', 'Amroha', 'Auraiya', 'Azamgarh', 'Baghpat', 'Bahraich', 'Ballia', 'Balrampur', 'Banda', 'Barabanki', 'Bareilly', 'Basti', 'Bijnor', 'Budaun', 'Bulandshahr', 'Chandauli', 'Chitrakoot', 'Deoria', 'Etah', 'Etawah', 'Ayodhya', 'Farrukhabad', 'Fatehpur', 'Firozabad', 'Gautam Buddha Nagar', 'Ghaziabad', 'Ghazipur', 'Gonda', 'Gorakhpur', 'Hamirpur', 'Hapur', 'Hardoi', 'Hathras', 'Jalaun', 'Jaunpur', 'Jhansi', 'Kannauj', 'Kanpur Dehat', 'Kanpur Nagar', 'Kasganj', 'Kaushambi', 'Kheri', 'Kushinagar', 'Lalitpur', 'Lucknow', 'Maharajganj', 'Mahoba', 'Mainpuri', 'Mathura', 'Mau', 'Meerut', 'Mirzapur', 'Moradabad', 'Muzaffarnagar', 'Pilibhit', 'Pratapgarh', 'Raebareli', 'Rampur', 'Saharanpur', 'Sambhal', 'Sant Kabir Nagar', 'Shahjahanpur', 'Shamli', 'Shravasti', 'Siddharthnagar', 'Sitapur', 'Sonbhadra', 'Sultanpur', 'Unnao', 'Varanasi']
-    },
-    'West Bengal': {
-        'climate': 'Tropical to subtropical',
-        'major_crops': ['rice', 'jute', 'tea', 'potato', 'wheat'],
-        'soil_types': ['alluvial', 'red', 'laterite'],
-        'rainfall': '1500-2500mm',
-        'districts': ['Alipurduar', 'Bankura', 'Birbhum', 'Cooch Behar', 'Dakshin Dinajpur', 'Darjeeling', 'Hooghly', 'Howrah', 'Jalpaiguri', 'Jhargram', 'Kalimpong', 'Kolkata', 'Malda', 'Murshidabad', 'Nadia', 'North 24 Parganas', 'Paschim Bardhaman', 'Paschim Medinipur', 'Purba Bardhaman', 'Purba Medinipur', 'Purulia', 'South 24 Parganas', 'Uttar Dinajpur']
-    },
-    'Rajasthan': {
-        'climate': 'Arid to semi-arid',
-        'major_crops': ['bajra', 'wheat', 'barley', 'pulses', 'mustard'],
-        'soil_types': ['sandy', 'alluvial'],
-        'rainfall': '100-600mm',
-        'districts': ['Ajmer', 'Alwar', 'Banswara', 'Baran', 'Barmer', 'Bharatpur', 'Bhilwara', 'Bikaner', 'Bundi', 'Chittorgarh', 'Churu', 'Dausa', 'Dholpur', 'Dungarpur', 'Hanumangarh', 'Jaipur', 'Jaisalmer', 'Jalore', 'Jhalawar', 'Jhunjhunu', 'Jodhpur', 'Karauli', 'Kota', 'Nagaur', 'Pali', 'Pratapgarh', 'Rajsamand', 'Sawai Madhopur', 'Sikar', 'Sirohi', 'Sri Ganganagar', 'Tonk', 'Udaipur']
-    },
-    'Haryana': {
-        'climate': 'Semi-arid',
-        'major_crops': ['wheat', 'rice', 'sugarcane', 'cotton', 'bajra'],
-        'soil_types': ['alluvial', 'sandy'],
-        'rainfall': '400-600mm',
-        'districts': ['Ambala', 'Bhiwani', 'Charkhi Dadri', 'Faridabad', 'Fatehabad', 'Gurugram', 'Hisar', 'Jhajjar', 'Jind', 'Kaithal', 'Karnal', 'Kurukshetra', 'Mahendragarh', 'Nuh', 'Palwal', 'Panchkula', 'Panipat', 'Rewari', 'Rohtak', 'Sirsa', 'Sonipat', 'Yamunanagar']
+    'Assam': {
+        'climate': 'Subtropical with high rainfall',
+        'major_crops': ['rice', 'tea', 'jute', 'pulses', 'oilseeds'],
+        'soil_types': ['alluvial', 'red'],
+        'rainfall': '2000-3000mm',
+        'districts': ['Baksa', 'Barpeta', 'Biswanath', 'Bongaigaon', 'Cachar', 'Charaideo', 'Chirang', 'Darrang', 'Dhemaji', 'Dhubri', 'Dibrugarh', 'Dima Hasao', 'Goalpara', 'Golaghat', 'Hailakandi', 'Hojai', 'Jorhat', 'Kamrup', 'Kamrup Metropolitan', 'Karbi Anglong', 'Karimganj', 'Kokrajhar', 'Lakhimpur', 'Majuli', 'Morigaon', 'Nagaon', 'Nalbari', 'Sivasagar', 'Sonitpur', 'South Salmara-Mankachar', 'Tinsukia', 'Udalguri', 'West Karbi Anglong']
     },
     'Bihar': {
         'climate': 'Subtropical',
@@ -139,12 +105,138 @@ INDIAN_STATES_DISTRICTS = {
         'rainfall': '1000-1400mm',
         'districts': ['Araria', 'Arwal', 'Aurangabad', 'Banka', 'Begusarai', 'Bhagalpur', 'Bhojpur', 'Buxar', 'Darbhanga', 'East Champaran', 'Gaya', 'Gopalganj', 'Jamui', 'Jehanabad', 'Kaimur', 'Katihar', 'Khagaria', 'Kishanganj', 'Lakhisarai', 'Madhepura', 'Madhubani', 'Munger', 'Muzaffarpur', 'Nalanda', 'Nawada', 'Patna', 'Purnia', 'Rohtas', 'Saharsa', 'Samastipur', 'Saran', 'Sheikhpura', 'Sheohar', 'Sitamarhi', 'Siwan', 'Supaul', 'Vaishali', 'West Champaran']
     },
+    'Chhattisgarh': {
+        'climate': 'Tropical',
+        'major_crops': ['rice', 'maize', 'pulses', 'oilseeds', 'sugarcane'],
+        'soil_types': ['red', 'black'],
+        'rainfall': '1200-1600mm',
+        'districts': ['Balod', 'Baloda Bazar', 'Balrampur', 'Bastar', 'Bemetara', 'Bijapur', 'Bilaspur', 'Dantewada', 'Dhamtari', 'Durg', 'Gariaband', 'Janjgir-Champa', 'Jashpur', 'Kabirdham', 'Kanker', 'Kondagaon', 'Korba', 'Koriya', 'Mahasamund', 'Mungeli', 'Narayanpur', 'Raigarh', 'Raipur', 'Rajnandgaon', 'Sukma', 'Surajpur', 'Surguja']
+    },
+    'Goa': {
+        'climate': 'Tropical coastal',
+        'major_crops': ['rice', 'cashew', 'coconut', 'areca nut', 'vegetables'],
+        'soil_types': ['laterite', 'alluvial'],
+        'rainfall': '2500-3000mm',
+        'districts': ['North Goa', 'South Goa']
+    },
+    'Gujarat': {
+        'climate': 'Semi-arid to arid',
+        'major_crops': ['cotton', 'groundnut', 'tobacco', 'wheat', 'bajra'],
+        'soil_types': ['black', 'alluvial', 'sandy'],
+        'rainfall': '400-1000mm',
+        'districts': ['Ahmedabad', 'Amreli', 'Anand', 'Aravalli', 'Banaskantha', 'Bharuch', 'Bhavnagar', 'Botad', 'Chhota Udaipur', 'Dahod', 'Dang', 'Devbhoomi Dwarka', 'Gandhinagar', 'Gir Somnath', 'Jamnagar', 'Junagadh', 'Kheda', 'Kutch', 'Mahisagar', 'Mehsana', 'Morbi', 'Narmada', 'Navsari', 'Panchmahal', 'Patan', 'Porbandar', 'Rajkot', 'Sabarkantha', 'Surat', 'Surendranagar', 'Tapi', 'Vadodara', 'Valsad']
+    },
+    'Haryana': {
+        'climate': 'Semi-arid',
+        'major_crops': ['wheat', 'rice', 'sugarcane', 'cotton', 'bajra'],
+        'soil_types': ['alluvial', 'sandy'],
+        'rainfall': '400-600mm',
+        'districts': ['Ambala', 'Bhiwani', 'Charkhi Dadri', 'Faridabad', 'Fatehabad', 'Gurugram', 'Hisar', 'Jhajjar', 'Jind', 'Kaithal', 'Karnal', 'Kurukshetra', 'Mahendragarh', 'Nuh', 'Palwal', 'Panchkula', 'Panipat', 'Rewari', 'Rohtak', 'Sirsa', 'Sonipat', 'Yamunanagar']
+    },
+    'Himachal Pradesh': {
+        'climate': 'Temperate to alpine',
+        'major_crops': ['wheat', 'maize', 'rice', 'barley', 'apples'],
+        'soil_types': ['alluvial', 'mountain'],
+        'rainfall': '1000-2000mm',
+        'districts': ['Bilaspur', 'Chamba', 'Hamirpur', 'Kangra', 'Kinnaur', 'Kullu', 'Lahaul and Spiti', 'Mandi', 'Shimla', 'Sirmaur', 'Solan', 'Una']
+    },
+    'Jharkhand': {
+        'climate': 'Tropical to subtropical',
+        'major_crops': ['rice', 'maize', 'pulses', 'oilseeds', 'vegetables'],
+        'soil_types': ['red', 'laterite'],
+        'rainfall': '1200-1600mm',
+        'districts': ['Bokaro', 'Chatra', 'Deoghar', 'Dhanbad', 'Dumka', 'East Singhbhum', 'Garhwa', 'Giridih', 'Godda', 'Gumla', 'Hazaribagh', 'Jamtara', 'Khunti', 'Koderma', 'Latehar', 'Lohardaga', 'Pakur', 'Palamu', 'Ramgarh', 'Ranchi', 'Sahibganj', 'Seraikela-Kharsawan', 'Simdega', 'West Singhbhum']
+    },
+    'Karnataka': {
+        'climate': 'Tropical to semi-arid',
+        'major_crops': ['rice', 'ragi', 'jowar', 'cotton', 'sugarcane'],
+        'soil_types': ['red', 'black', 'laterite'],
+        'rainfall': '600-3000mm',
+        'districts': ['Bagalkot', 'Ballari', 'Belagavi', 'Bengaluru Rural', 'Bengaluru Urban', 'Bidar', 'Chamarajanagar', 'Chikkaballapur', 'Chikkamagaluru', 'Chitradurga', 'Dakshina Kannada', 'Davanagere', 'Dharwad', 'Gadag', 'Hassan', 'Haveri', 'Kalaburagi', 'Kodagu', 'Kolar', 'Koppal', 'Mandya', 'Mysuru', 'Raichur', 'Ramanagara', 'Shivamogga', 'Tumakuru', 'Udupi', 'Uttara Kannada', 'Vijayapura', 'Yadgir']
+    },
     'Kerala': {
         'climate': 'Tropical humid',
         'major_crops': ['rice', 'coconut', 'rubber', 'spices', 'cashew'],
         'soil_types': ['laterite', 'alluvial', 'coastal'],
         'rainfall': '2500-3500mm',
         'districts': ['Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasaragod', 'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad', 'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad']
+    },
+    'Madhya Pradesh': {
+        'climate': 'Tropical to subtropical',
+        'major_crops': ['wheat', 'soybean', 'gram', 'rice', 'cotton'],
+        'soil_types': ['black', 'red', 'alluvial'],
+        'rainfall': '800-1600mm',
+        'districts': ['Agar Malwa', 'Alirajpur', 'Anuppur', 'Ashoknagar', 'Balaghat', 'Barwani', 'Betul', 'Bhind', 'Bhopal', 'Burhanpur', 'Chhatarpur', 'Chhindwara', 'Damoh', 'Datia', 'Dewas', 'Dhar', 'Dindori', 'Guna', 'Gwalior', 'Harda', 'Hoshangabad', 'Indore', 'Jabalpur', 'Jhabua', 'Katni', 'Khandwa', 'Khargone', 'Mandla', 'Mandsaur', 'Morena', 'Narsinghpur', 'Neemuch', 'Niwari', 'Panna', 'Raisen', 'Rajgarh', 'Ratlam', 'Rewa', 'Sagar', 'Satna', 'Sehore', 'Seoni', 'Shahdol', 'Shajapur', 'Sheopur', 'Shivpuri', 'Sidhi', 'Singrauli', 'Tikamgarh', 'Ujjain', 'Umaria', 'Vidisha']
+    },
+    'Maharashtra': {
+        'climate': 'Tropical to semi-arid',
+        'major_crops': ['cotton', 'sugarcane', 'rice', 'wheat', 'pulses'],
+        'soil_types': ['black', 'red', 'laterite'],
+        'rainfall': '400-3000mm',
+        'districts': ['Ahmednagar', 'Akola', 'Amravati', 'Aurangabad', 'Beed', 'Bhandara', 'Buldhana', 'Chandrapur', 'Dhule', 'Gadchiroli', 'Gondia', 'Hingoli', 'Jalgaon', 'Jalna', 'Kolhapur', 'Latur', 'Mumbai City', 'Mumbai Suburban', 'Nagpur', 'Nanded', 'Nandurbar', 'Nashik', 'Osmanabad', 'Palghar', 'Parbhani', 'Pune', 'Raigad', 'Ratnagiri', 'Sangli', 'Satara', 'Sindhudurg', 'Solapur', 'Thane', 'Wardha', 'Washim', 'Yavatmal']
+    },
+    'Manipur': {
+        'climate': 'Subtropical to temperate',
+        'major_crops': ['rice', 'maize', 'pulses', 'oilseeds', 'sugarcane'],
+        'soil_types': ['red', 'alluvial'],
+        'rainfall': '1500-2500mm',
+        'districts': ['Bishnupur', 'Chandel', 'Churachandpur', 'Imphal East', 'Imphal West', 'Jiribam', 'Kakching', 'Kamjong', 'Kangpokpi', 'Noney', 'Pherzawl', 'Senapati', 'Tamenglong', 'Tengnoupal', 'Thoubal', 'Ukhrul']
+    },
+    'Meghalaya': {
+        'climate': 'Subtropical with heavy rainfall',
+        'major_crops': ['rice', 'maize', 'potato', 'pulses', 'pineapple'],
+        'soil_types': ['red', 'laterite'],
+        'rainfall': '2000-12000mm',
+        'districts': ['East Garo Hills', 'East Jaintia Hills', 'East Khasi Hills', 'North Garo Hills', 'Ri Bhoi', 'South Garo Hills', 'South West Garo Hills', 'South West Khasi Hills', 'West Garo Hills', 'West Jaintia Hills', 'West Khasi Hills']
+    },
+    'Mizoram': {
+        'climate': 'Subtropical',
+        'major_crops': ['rice', 'maize', 'pulses', 'oilseeds', 'cotton'],
+        'soil_types': ['red', 'laterite'],
+        'rainfall': '2000-3000mm',
+        'districts': ['Aizawl', 'Champhai', 'Kolasib', 'Lawngtlai', 'Lunglei', 'Mamit', 'Saiha', 'Serchhip']
+    },
+    'Nagaland': {
+        'climate': 'Subtropical to temperate',
+        'major_crops': ['rice', 'maize', 'millet', 'pulses', 'oilseeds'],
+        'soil_types': ['red', 'laterite'],
+        'rainfall': '2000-2500mm',
+        'districts': ['Dimapur', 'Kiphire', 'Kohima', 'Longleng', 'Mokokchung', 'Mon', 'Peren', 'Phek', 'Tuensang', 'Wokha', 'Zunheboto']
+    },
+    'Odisha': {
+        'climate': 'Tropical',
+        'major_crops': ['rice', 'pulses', 'oilseeds', 'jute', 'sugarcane'],
+        'soil_types': ['red', 'laterite', 'alluvial'],
+        'rainfall': '1200-1600mm',
+        'districts': ['Angul', 'Balangir', 'Balasore', 'Bargarh', 'Bhadrak', 'Boudh', 'Cuttack', 'Deogarh', 'Dhenkanal', 'Gajapati', 'Ganjam', 'Jagatsinghpur', 'Jajpur', 'Jharsuguda', 'Kalahandi', 'Kandhamal', 'Kendrapara', 'Kendujhar', 'Khordha', 'Koraput', 'Malkangiri', 'Mayurbhanj', 'Nabarangpur', 'Nayagarh', 'Nuapada', 'Puri', 'Rayagada', 'Sambalpur', 'Subarnapur', 'Sundargarh']
+    },
+    'Punjab': {
+        'climate': 'Semi-arid to sub-humid',
+        'major_crops': ['wheat', 'rice', 'cotton', 'sugarcane', 'maize'],
+        'soil_types': ['alluvial'],
+        'rainfall': '400-600mm',
+        'districts': ['Amritsar', 'Barnala', 'Bathinda', 'Faridkot', 'Fatehgarh Sahib', 'Fazilka', 'Ferozepur', 'Gurdaspur', 'Hoshiarpur', 'Jalandhar', 'Kapurthala', 'Ludhiana', 'Mansa', 'Moga', 'Mohali', 'Muktsar', 'Pathankot', 'Patiala', 'Rupnagar', 'Sangrur', 'Shaheed Bhagat Singh Nagar', 'Tarn Taran']
+    },
+    'Rajasthan': {
+        'climate': 'Arid to semi-arid',
+        'major_crops': ['bajra', 'wheat', 'barley', 'pulses', 'mustard'],
+        'soil_types': ['sandy', 'alluvial'],
+        'rainfall': '100-600mm',
+        'districts': ['Ajmer', 'Alwar', 'Banswara', 'Baran', 'Barmer', 'Bharatpur', 'Bhilwara', 'Bikaner', 'Bundi', 'Chittorgarh', 'Churu', 'Dausa', 'Dholpur', 'Dungarpur', 'Hanumangarh', 'Jaipur', 'Jaisalmer', 'Jalore', 'Jhalawar', 'Jhunjhunu', 'Jodhpur', 'Karauli', 'Kota', 'Nagaur', 'Pali', 'Pratapgarh', 'Rajsamand', 'Sawai Madhopur', 'Sikar', 'Sirohi', 'Sri Ganganagar', 'Tonk', 'Udaipur']
+    },
+    'Sikkim': {
+        'climate': 'Temperate to alpine',
+        'major_crops': ['maize', 'rice', 'wheat', 'barley', 'cardamom'],
+        'soil_types': ['mountain', 'alluvial'],
+        'rainfall': '2000-3500mm',
+        'districts': ['East Sikkim', 'North Sikkim', 'South Sikkim', 'West Sikkim']
+    },
+    'Tamil Nadu': {
+        'climate': 'Tropical',
+        'major_crops': ['rice', 'sugarcane', 'cotton', 'groundnut', 'millets'],
+        'soil_types': ['red', 'black', 'alluvial'],
+        'rainfall': '900-1400mm',
+        'districts': ['Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 'Dindigul', 'Erode', 'Kallakurichi', 'Kanchipuram', 'Kanyakumari', 'Karur', 'Krishnagiri', 'Madurai', 'Mayiladuthurai', 'Nagapattinam', 'Namakkal', 'Nilgiris', 'Perambalur', 'Pudukkottai', 'Ramanathapuram', 'Ranipet', 'Salem', 'Sivaganga', 'Tenkasi', 'Thanjavur', 'Theni', 'Thoothukudi', 'Tiruchirappalli', 'Tirunelveli', 'Tirupathur', 'Tiruppur', 'Tiruvallur', 'Tiruvannamalai', 'Tiruvarur', 'Vellore', 'Viluppuram', 'Virudhunagar']
     },
     'Telangana': {
         'climate': 'Tropical',
@@ -153,12 +245,54 @@ INDIAN_STATES_DISTRICTS = {
         'rainfall': '900-1200mm',
         'districts': ['Adilabad', 'Bhadradri Kothagudem', 'Hyderabad', 'Jagtial', 'Jangaon', 'Jayashankar', 'Jogulamba', 'Kamareddy', 'Karimnagar', 'Khammam', 'Kumuram Bheem', 'Mahabubabad', 'Mahbubnagar', 'Mancherial', 'Medak', 'Medchal', 'Nagarkurnool', 'Nalgonda', 'Nirmal', 'Nizamabad', 'Peddapalli', 'Rajanna Sircilla', 'Rangareddy', 'Sangareddy', 'Siddipet', 'Suryapet', 'Vikarabad', 'Wanaparthy', 'Warangal Rural', 'Warangal Urban', 'Yadadri Bhuvanagiri']
     },
-    'Gujarat': {
-        'climate': 'Semi-arid to arid',
-        'major_crops': ['cotton', 'groundnut', 'tobacco', 'wheat', 'bajra'],
-        'soil_types': ['black', 'alluvial', 'sandy'],
-        'rainfall': '400-1000mm',
-        'districts': ['Ahmedabad', 'Amreli', 'Anand', 'Aravalli', 'Banaskantha', 'Bharuch', 'Bhavnagar', 'Botad', 'Chhota Udaipur', 'Dahod', 'Dang', 'Devbhoomi Dwarka', 'Gandhinagar', 'Gir Somnath', 'Jamnagar', 'Junagadh', 'Kheda', 'Kutch', 'Mahisagar', 'Mehsana', 'Morbi', 'Narmada', 'Navsari', 'Panchmahal', 'Patan', 'Porbandar', 'Rajkot', 'Sabarkantha', 'Surat', 'Surendranagar', 'Tapi', 'Vadodara', 'Valsad']
+    'Tripura': {
+        'climate': 'Subtropical',
+        'major_crops': ['rice', 'jute', 'tea', 'rubber', 'pineapple'],
+        'soil_types': ['alluvial', 'laterite'],
+        'rainfall': '2000-2500mm',
+        'districts': ['Dhalai', 'Gomati', 'Khowai', 'North Tripura', 'Sepahijala', 'South Tripura', 'Unakoti', 'West Tripura']
+    },
+    'Uttar Pradesh': {
+        'climate': 'Subtropical',
+        'major_crops': ['wheat', 'rice', 'sugarcane', 'potato', 'pulses'],
+        'soil_types': ['alluvial'],
+        'rainfall': '600-1200mm',
+        'districts': ['Agra', 'Aligarh', 'Prayagraj', 'Ambedkar Nagar', 'Amethi', 'Amroha', 'Auraiya', 'Azamgarh', 'Baghpat', 'Bahraich', 'Ballia', 'Balrampur', 'Banda', 'Barabanki', 'Bareilly', 'Basti', 'Bijnor', 'Budaun', 'Bulandshahr', 'Chandauli', 'Chitrakoot', 'Deoria', 'Etah', 'Etawah', 'Ayodhya', 'Farrukhabad', 'Fatehpur', 'Firozabad', 'Gautam Buddha Nagar', 'Ghaziabad', 'Ghazipur', 'Gonda', 'Gorakhpur', 'Hamirpur', 'Hapur', 'Hardoi', 'Hathras', 'Jalaun', 'Jaunpur', 'Jhansi', 'Kannauj', 'Kanpur Dehat', 'Kanpur Nagar', 'Kasganj', 'Kaushambi', 'Kheri', 'Kushinagar', 'Lalitpur', 'Lucknow', 'Maharajganj', 'Mahoba', 'Mainpuri', 'Mathura', 'Mau', 'Meerut', 'Mirzapur', 'Moradabad', 'Muzaffarnagar', 'Pilibhit', 'Pratapgarh', 'Raebareli', 'Rampur', 'Saharanpur', 'Sambhal', 'Sant Kabir Nagar', 'Shahjahanpur', 'Shamli', 'Shravasti', 'Siddharthnagar', 'Sitapur', 'Sonbhadra', 'Sultanpur', 'Unnao', 'Varanasi']
+    },
+    'Uttarakhand': {
+        'climate': 'Temperate to alpine',
+        'major_crops': ['rice', 'wheat', 'sugarcane', 'potato', 'pulses'],
+        'soil_types': ['alluvial', 'mountain'],
+        'rainfall': '1000-2000mm',
+        'districts': ['Almora', 'Bageshwar', 'Chamoli', 'Champawat', 'Dehradun', 'Haridwar', 'Nainital', 'Pauri Garhwal', 'Pithoragarh', 'Rudraprayag', 'Tehri Garhwal', 'Udham Singh Nagar', 'Uttarkashi']
+    },
+    'West Bengal': {
+        'climate': 'Tropical to subtropical',
+        'major_crops': ['rice', 'jute', 'tea', 'potato', 'wheat'],
+        'soil_types': ['alluvial', 'red', 'laterite'],
+        'rainfall': '1500-2500mm',
+        'districts': ['Alipurduar', 'Bankura', 'Birbhum', 'Cooch Behar', 'Dakshin Dinajpur', 'Darjeeling', 'Hooghly', 'Howrah', 'Jalpaiguri', 'Jhargram', 'Kalimpong', 'Kolkata', 'Malda', 'Murshidabad', 'Nadia', 'North 24 Parganas', 'Paschim Bardhaman', 'Paschim Medinipur', 'Purba Bardhaman', 'Purba Medinipur', 'Purulia', 'South 24 Parganas', 'Uttar Dinajpur']
+    },
+    'Delhi': {
+        'climate': 'Semi-arid',
+        'major_crops': ['wheat', 'vegetables', 'fruits', 'flowers'],
+        'soil_types': ['alluvial'],
+        'rainfall': '600-700mm',
+        'districts': ['Central Delhi', 'East Delhi', 'New Delhi', 'North Delhi', 'North East Delhi', 'North West Delhi', 'Shahdara', 'South Delhi', 'South East Delhi', 'South West Delhi', 'West Delhi']
+    },
+    'Jammu and Kashmir': {
+        'climate': 'Temperate to alpine',
+        'major_crops': ['rice', 'wheat', 'maize', 'barley', 'apples'],
+        'soil_types': ['alluvial', 'mountain'],
+        'rainfall': '400-1500mm',
+        'districts': ['Anantnag', 'Bandipora', 'Baramulla', 'Budgam', 'Doda', 'Ganderbal', 'Jammu', 'Kathua', 'Kishtwar', 'Kulgam', 'Kupwara', 'Poonch', 'Pulwama', 'Rajouri', 'Ramban', 'Reasi', 'Samba', 'Shopian', 'Srinagar', 'Udhampur']
+    },
+    'Ladakh': {
+        'climate': 'Cold desert',
+        'major_crops': ['barley', 'wheat', 'peas', 'apricot', 'apple'],
+        'soil_types': ['mountain', 'desert'],
+        'rainfall': '100-200mm',
+        'districts': ['Kargil', 'Leh']
     }
 }
 
@@ -259,7 +393,6 @@ def recommend():
                 'error': f'Invalid state: {state}. Please select a valid Indian state.'
             }), 400
         
-        # Get language preference
         language = data.get('language', 'english')
         
         rule_suggestions = get_rule_based_suggestions(data, state_info)
