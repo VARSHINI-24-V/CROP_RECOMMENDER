@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Crop Recommender - All India</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans Gujarati', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+        animation: fadeInDown 0.8s ease;
+      }
+      
+      .header h1 {
+        font-size: 2.5em;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      }
+      
+      .header p {
+        font-size: 1.1em;
+        opacity: 0.95;
+      }
+      
+      .language-selector {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .language-selector select {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        border-radius: 25px;
+        border: 2px solid white;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        font-weight: 600;
+      }
+      
+      .language-selector select option {
+        background: #667eea;
+        color: white;
+      }
+      
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: fadeInUp 0.8s ease;
+      }
+      
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      
+      .form-group {
+        position: relative;
+      }
+      
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+      
+      label {
+        display: block;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 8px;
+        font-size: 0.95em;
+      }
+      
+      .icon {
+        display: inline-block;
+        margin-right: 6px;
+        opacity: 0.7;
+      }
+      
+      input, select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        font-family: inherit;
+        background: white;
+      }
+      
+      input:focus, select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      
+      input:hover, select:hover {
+        border-color: #cbd5e0;
+      }
+      
+      button {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+      
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      }
+      
+      button:active {
+        transform: translateY(0);
+      }
+      
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+        color: #667eea;
+        font-weight: 600;
+      }
+      
+      .loading.active {
+        display: block;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      
+      .results {
+        margin-top: 30px;
+        display: none;
+      }
+      
+      .results.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+      
+      .crop-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        border-left: 5px solid #667eea;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+      
+      .crop-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      
+      .crop-name {
+        font-size: 1.8em;
+        font-weight: 700;
+        color: #2d3748;
+      }
+      
+      .section-title {
+        color: #667eea;
+        font-size: 1.2em;
+        font-weight: 600;
+        margin: 20px 0 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .detail-box {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        line-height: 1.6;
+      }
+      
+      .detail-label {
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 5px;
+      }
+      
+      .detail-value {
+        color: #2d3748;
+        line-height: 1.6;
+      }
+      
+      .benefit-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      
+      .benefit-item {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        border-left: 3px solid #48bb78;
+      }
+      
+      .benefit-item strong {
+        color: #48bb78;
+      }
+      
+      .growth-timeline {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+      }
+      
+      .error {
+        background: #fed7d7;
+        color: #c53030;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        border-left: 5px solid #c53030;
+      }
+      
+      .language-indicator {
+        display: inline-block;
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        margin-left: 10px;
+      }
+      
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+        }
+        
+        .header h1 {
+          font-size: 2em;
+        }
+        
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .crop-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1 id="headerTitle">🌾 AI Crop Recommender</h1>
+      <p id="headerSubtitle">Smart farming solutions for all of India - 31 States & UTs covered</p>
+    </div>
+
+    <div class="language-selector">
+      <select id="languageSelect">
+        <option value="english">🌐 English</option>
+      </select>
+    </div>
+
+    <div class="container">
+      <form id="farmerForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label id="labelName"><span class="icon">👤</span><span class="label-text">Farmer Name</span></label>
+            <input name="name" required id="inputName">
+          </div>
+          
+          <div class="form-group">
+            <label id="labelState"><span class="icon">🗺️</span><span class="label-text">State</span></label>
+            <select name="state" required id="stateSelect">
+              <option value="" id="optionSelectState">Select State</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label id="labelDistrict"><span class="icon">📍</span><span class="label-text">District</span></label>
+            <select name="district" required id="districtSelect" disabled>
+              <option value="" id="optionFirstSelectState">First select a state</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label id="labelSeason"><span class="icon">🌤️</span><span class="label-text">Season</span></label>
+            <select name="season" required id="seasonSelect">
+              <option value="" id="optionSelectSeason">Select Season</option>
+              <option value="kharif" id="optionKharif">Kharif (Monsoon)</option>
+              <option value="rabi" id="optionRabi">Rabi (Winter)</option>
+              <option value="zaid" id="optionZaid">Zaid (Summer)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label id="labelSoilType"><span class="icon">🏔️</span><span class="label-text">Soil Type</span></label>
+            <select name="soil_type" required id="soilTypeSelect">
+              <option value="" id="optionSelectSoilType">Select Soil Type</option>
+              <option value="alluvial">Alluvial</option>
+              <option value="black">Black (Regur)</option>
+              <option value="red">Red & Yellow</option>
+              <option value="laterite">Laterite</option>
+              <option value="sandy">Sandy/Desert</option>
+              <option value="clay">Clay</option>
+              <option value="loam">Loam</option>
+              <option value="mountain">Mountain/Hill</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label id="labelIrrigation"><span class="icon">💧</span><span class="label-text">Irrigation Available</span></label>
+            <select name="irrigation" id="irrigationSelect">
+              <option value="yes" id="optionYes">Yes</option>
+              <option value="no" id="optionNo">No</option>
+              <option value="partial" id="optionPartial">Partial</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label id="labelFarmSize"><span class="icon">📏</span><span class="label-text">Farm Size (acres)</span></label>
+            <input name="farm_size" type="number" step="0.01" id="inputFarmSize">
+          </div>
+          
+          <div class="form-group">
+            <label id="labelBudget"><span class="icon">💰</span><span class="label-text">Budget (₹)</span></label>
+            <input name="budget" type="number" id="inputBudget">
+          </div>
+          
+          <div class="form-group full-width">
+            <label id="labelPreviousCrop"><span class="icon">🌱</span><span class="label-text">Previous Crop (Optional)</span></label>
+            <input name="previous_crop" id="inputPreviousCrop">
+          </div>
+        </div>
+        
+        <input type="hidden" name="language" id="languageInput" value="english">
+        
+        <button type="submit" id="submitBtn">
+          <span id="btnText">🔍 Get AI Recommendations</span>
+        </button>
+      </form>
+
+      <div class="loading" id="loading">
+        <p id="loadingText">🤖 Analyzing your farm data...</p>
+      </div>
+
+      <div class="results" id="results"></div>
+    </div>
+
+    <script>
+      // UI Translations
+      const translations = {
+        english: {
+          headerTitle: "🌾 AI Crop Recommender",
+          headerSubtitle: "Smart farming solutions for all of India - 31 States & UTs covered",
+          labelName: "Farmer Name",
+          labelState: "State",
+          labelDistrict: "District",
+          labelSeason: "Season",
+          labelSoilType: "Soil Type",
+          labelIrrigation: "Irrigation Available",
+          labelFarmSize: "Farm Size (acres)",
+          labelBudget: "Budget (₹)",
+          labelPreviousCrop: "Previous Crop (Optional)",
+          placeholderName: "Enter your name",
+          placeholderFarmSize: "e.g., 2.5",
+          placeholderBudget: "Optional",
+          placeholderPreviousCrop: "e.g., Rice, Wheat",
+          optionSelectState: "Select State",
+          optionFirstSelectState: "First select a state",
+          optionSelectSeason: "Select Season",
+          optionKharif: "Kharif (Monsoon)",
+          optionRabi: "Rabi (Winter)",
+          optionZaid: "Zaid (Summer)",
+          optionSelectSoilType: "Select Soil Type",
+          optionYes: "Yes",
+          optionNo: "No",
+          optionPartial: "Partial",
+          btnText: "🔍 Get AI Recommendations",
+          loadingText: "🤖 Analyzing your farm data...",
+          optionSelectDistrict: "Select District",
+          languagePrompt: "Would you like to get recommendations in",
+          recommendationsIn: "📝 Recommendations in",
+          climateSuitability: "🌍 Climate Suitability",
+          waterRequirements: "💧 Water Requirements",
+          growthCycle: "🌱 Growth Cycle",
+          benefitsProfitability: "💰 Benefits & Profitability",
+          cultivationPractices: "🌾 Cultivation Practices",
+          duration: "Duration",
+          growthStages: "Growth Stages",
+          criticalPeriods: "Critical Periods",
+          yieldPotential: "Yield Potential",
+          marketDemand: "Market Demand",
+          profitability: "Profitability",
+          nutritionalValue: "Nutritional Value",
+          otherBenefits: "Other Benefits",
+          sowingTime: "Sowing Time",
+          seedRate: "Seed Rate",
+          spacing: "Spacing",
+          fertilizers: "Fertilizers",
+          pestDiseases: "Pest & Diseases",
+          infoNotAvailable: "Information not available",
+          aiResponse: "📝 AI Response"
+        },
+        hindi: {
+          headerTitle: "🌾 एआई फसल सलाहकार",
+          headerSubtitle: "पूरे भारत के लिए स्मार्ट खेती समाधान - 31 राज्य और केंद्र शासित प्रदेश",
+          labelName: "किसान का नाम",
+          labelState: "राज्य",
+          labelDistrict: "जिला",
+          labelSeason: "मौसम",
+          labelSoilType: "मिट्टी का प्रकार",
+          labelIrrigation: "सिंचाई उपलब्ध",
+          labelFarmSize: "खेत का आकार (एकड़)",
+          labelBudget: "बजट (₹)",
+          labelPreviousCrop: "पिछली फसल (वैकल्पिक)",
+          placeholderName: "अपना नाम दर्ज करें",
+          placeholderFarmSize: "उदाहरण, 2.5",
+          placeholderBudget: "वैकल्पिक",
+          placeholderPreviousCrop: "उदाहरण, धान, गेहूं",
+          optionSelectState: "राज्य चुनें",
+          optionFirstSelectState: "पहले राज्य चुनें",
+          optionSelectSeason: "मौसम चुनें",
+          optionKharif: "खरीफ (मानसून)",
+          optionRabi: "रबी (सर्दी)",
+          optionZaid: "जायद (गर्मी)",
+          optionSelectSoilType: "मिट्टी का प्रकार चुनें",
+          optionYes: "हाँ",
+          optionNo: "नहीं",
+          optionPartial: "आंशिक",
+          btnText: "🔍 एआई सिफारिशें प्राप्त करें",
+          loadingText: "🤖 आपके खेत के डेटा का विश्लेषण कर रहे हैं...",
+          optionSelectDistrict: "जिला चुनें",
+          languagePrompt: "क्या आप सिफारिशें प्राप्त करना चाहेंगे",
+          recommendationsIn: "📝 सिफारिशें",
+          climateSuitability: "🌍 जलवायु उपयुक्तता",
+          waterRequirements: "💧 पानी की आवश्यकता",
+          growthCycle: "🌱 विकास चक्र",
+          benefitsProfitability: "💰 लाभ और लाभप्रदता",
+          cultivationPractices: "🌾 खेती के तरीके",
+          duration: "अवधि",
+          growthStages: "विकास के चरण",
+          criticalPeriods: "महत्वपूर्ण अवधि",
+          yieldPotential: "उपज क्षमता",
+          marketDemand: "बाजार मांग",
+          profitability: "लाभप्रदता",
+          nutritionalValue: "पोषण मूल्य",
+          otherBenefits: "अन्य लाभ",
+          sowingTime: "बुवाई का समय",
+          seedRate: "बीज दर",
+          spacing: "दूरी",
+          fertilizers: "उर्वरक",
+          pestDiseases: "कीट और रोग",
+          infoNotAvailable: "जानकारी उपलब्ध नहीं",
+          aiResponse: "📝 एआई प्रतिक्रिया"
+        },
+        tamil: {
+          headerTitle: "🌾 செயற்கை நுண்ணறிவு பயிர் ஆலோசகர்",
+          headerSubtitle: "முழு இந்தியாவுக்கும் ஸ்மார்ட் விவசாய தீர்வுகள் - 31 மாநிலங்கள் மற்றும் யூனியன் பிரதேசங்கள்",
+          labelName: "விவசாயி பெயர்",
+          labelState: "மாநிலம்",
+          labelDistrict: "மாவட்டம்",
+          labelSeason: "பருவம்",
+          labelSoilType: "மண் வகை",
+          labelIrrigation: "நீர்ப்பாசனம் உள்ளதா",
+          labelFarmSize: "நிலத்தின் அளவு (ஏக்கர்)",
+          labelBudget: "பட்ஜெட் (₹)",
+          labelPreviousCrop: "முந்தைய பயிர் (விரும்பினால்)",
+          placeholderName: "உங்கள் பெயரை உள்ளிடவும்",
+          placeholderFarmSize: "எ.கா., 2.5",
+          placeholderBudget: "விரும்பினால்",
+          placeholderPreviousCrop: "எ.கா., நெல், கோதுமை",
+          optionSelectState: "மாநிலத்தை தேர்ந்தெடுக்கவும்",
+          optionFirstSelectState: "முதலில் மாநிலத்தை தேர்ந்தெடுக்கவும்",
+          optionSelectSeason: "பருவத்தை தேர்ந்தெடுக்கவும்",
+          optionKharif: "கரீப் (பருவமழை)",
+          optionRabi: "ரபி (குளிர்காலம்)",
+          optionZaid: "ஜாயித் (கோடை)",
+          optionSelectSoilType: "மண் வகையை தேர்ந்தெடுக்கவும்",
+          optionYes: "ஆம்",
+          optionNo: "இல்லை",
+          optionPartial: "பகுதி",
+          btnText: "🔍 AI பரிந்துரைகளைப் பெறவும்",
+          loadingText: "🤖 உங்கள் நில தரவை பகுப்பாய்வு செய்கிறது...",
+          optionSelectDistrict: "மாவட்டத்தை தேர்ந்தெடுக்கவும்",
+          languagePrompt: "நீங்கள் பரிந்துரைகளை பெற விரும்புகிறீர்களா",
+          recommendationsIn: "📝 பரிந்துரைகள்",
+          climateSuitability: "🌍 காலநிலை பொருத்தம்",
+          waterRequirements: "💧 நீர் தேவைகள்",
+          growthCycle: "🌱 வளர்ச்சி சுழற்சி",
+          benefitsProfitability: "💰 நன்மைகள் மற்றும் லாபம்",
+          cultivationPractices: "🌾 சாகுபடி முறைகள்",
+          duration: "காலம்",
+          growthStages: "வளர்ச்சி நிலைகள்",
+          criticalPeriods: "முக்கிய காலங்கள்",
+          yieldPotential: "மகசூல் திறன்",
+          marketDemand: "சந்தை தேவை",
+          profitability: "லாபம்",
+          nutritionalValue: "ஊட்டச்சத்து மதிப்பு",
+          otherBenefits: "பிற நன்மைகள்",
+          sowingTime: "விதைக்கும் நேரம்",
+          seedRate: "விதை விகிதம்",
+          spacing: "இடைவெளி",
+          fertilizers: "உரங்கள்",
+          pestDiseases: "பூச்சிகள் மற்றும் நோய்கள்",
+          infoNotAvailable: "தகவல் கிடைக்கவில்லை",
+          aiResponse: "📝 AI பதில்"
+        },
+        telugu: {
+          headerTitle: "🌾 కృత్రిమ మేధస్సు పంట సలహాదారు",
+          headerSubtitle: "మొత్తం భారతదేశం కోసం స్మార్ట్ వ్యవసాయ పరిష్కారాలు - 31 రాష్ట్రాలు మరియు కేంద్రపాలిత ప్రాంతాలు",
+          labelName: "రైతు పేరు",
+          labelState: "రాష్ట్రం",
+          labelDistrict: "జిల్లా",
+          labelSeason: "కాలం",
+          labelSoilType: "నేల రకం",
+          labelIrrigation: "నీటిపారుదల అందుబాటులో ఉందా",
+          labelFarmSize: "పొలం పరిమాణం (ఎకరాలు)",
+          labelBudget: "బడ్జెట్ (₹)",
+          labelPreviousCrop: "మునుపటి పంట (ఐచ్ఛికం)",
+          placeholderName: "మీ పేరు నమోదు చేయండి",
+          placeholderFarmSize: "ఉదా., 2.5",
+          placeholderBudget: "ఐచ్ఛికం",
+          placeholderPreviousCrop: "ఉదా., వరి, గోధుమ",
+          optionSelectState: "రాష్ట్రాన్ని ఎంచుకోండి",
+          optionFirstSelectState: "మొదట రాష్ట్రాన్ని ఎంచుకోండి",
+          optionSelectSeason: "కాలాన్ని ఎంచుకోండి",
+          optionKharif: "ఖరీఫ్ (వర్షాకాలం)",
+          optionRabi: "రబీ (చలికాలం)",
+          optionZaid: "జాయద్ (వేసవి)",
+          optionSelectSoilType: "నేల రకాన్ని ఎంచుకోండి",
+          optionYes: "అవును",
+          optionNo: "కాదు",
+          optionPartial: "పాక్షికం",
+          btnText: "🔍 AI సిఫార్సులను పొందండి",
+          loadingText: "🤖 మీ పొలం డేటాను విశ్లేషిస్తోంది...",
+          optionSelectDistrict: "జిల్లాను ఎంచుకోండి",
+          languagePrompt: "మీరు సిఫార్సులను పొందాలనుకుంటున్నారా",
+          recommendationsIn: "📝 సిఫార్సులు",
+          climateSuitability: "🌍 వాతావరణ అనుకూలత",
+          waterRequirements: "💧 నీటి అవసరాలు",
+          growthCycle: "🌱 వృద్ధి చక్రం",
+          benefitsProfitability: "💰 ప్రయోజనాలు మరియు లాభదాయకత",
+          cultivationPractices: "🌾 సాగు పద్ధతులు",
+          duration: "వ్యవధి",
+          growthStages: "వృద్ధి దశలు",
+          criticalPeriods: "క్లిష్టమైన కాలాలు",
+          yieldPotential: "దిగుబడి సామర్థ్యం",
+          marketDemand: "మార్కెట్ డిమాండ్",
+          profitability: "లాభదాయకత",
+          nutritionalValue: "పోషక విలువ",
+          otherBenefits: "ఇతర ప్రయోజనాలు",
+          sowingTime: "విత్తే సమయం",
+          seedRate: "విత్తన రేటు",
+          spacing: "అంతరం",
+          fertilizers: "ఎరువులు",
+          pestDiseases: "తెగులు మరియు వ్యాధులు",
+          infoNotAvailable: "సమాచారం అందుబాటులో లేదు",
+          aiResponse: "📝 AI ప్రతిస్పందన"
+        },
+        kannada: {
+          headerTitle: "🌾 ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ ಬೆಳೆ ಸಲಹೆಗಾರ",
+          headerSubtitle: "ಸಂಪೂರ್ಣ ಭಾರತಕ್ಕಾಗಿ ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಪರಿಹಾರಗಳು - 31 ರಾಜ್ಯಗಳು ಮತ್ತು ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳು",
+          labelName: "ರೈತ ಹೆಸರು",
+          labelState: "ರಾಜ್ಯ",
+          labelDistrict: "ಜಿಲ್ಲೆ",
+          labelSeason: "ಋತು",
+          labelSoilType: "ಮಣ್ಣಿನ ವಿಧ",
+          labelIrrigation: "ನೀರಾವರಿ ಲಭ್ಯವಿದೆಯೇ",
+          labelFarmSize: "ಜಮೀನಿನ ಗಾತ್ರ (ಎಕರೆಗಳು)",
+          labelBudget: "ಬಜೆಟ್ (₹)",
+          labelPreviousCrop: "ಹಿಂದಿನ ಬೆಳೆ (ಐಚ್ಛಿಕ)",
+          placeholderName: "ನಿಮ್ಮ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+          placeholderFarmSize: "ಉದಾ., 2.5",
+          placeholderBudget: "ಐಚ್ಛಿಕ",
+          placeholderPreviousCrop: "ಉದಾ., ಭತ್ತ, ಗೋಧಿ",
+          optionSelectState: "ರಾಜ್ಯ ಆಯ್ಕೆಮಾಡಿ",
+          optionFirstSelectState: "ಮೊದಲು ರಾಜ್ಯ ಆಯ್ಕೆಮಾಡಿ",
+          optionSelectSeason: "ಋತು ಆಯ್ಕೆಮಾಡಿ",
+          optionKharif: "ಖರೀಫ್ (ಮಾನ್ಸೂನ್)",
+          optionRabi: "ರಬಿ (ಚಳಿಗಾಲ)",
+          optionZaid: "ಝಾಯಿದ್ (ಬೇಸಿಗೆ)",
+          optionSelectSoilType: "ಮಣ್ಣಿನ ವಿಧ ಆಯ್ಕೆಮಾಡಿ",
+          optionYes: "ಹೌದು",
+          optionNo: "ಇಲ್ಲ",
+          optionPartial: "ಭಾಗಶಃ",
+          btnText: "🔍 AI ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ",
+          loadingText: "🤖 ನಿಮ್ಮ ಜಮೀನಿನ ಡೇಟಾವನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+          optionSelectDistrict: "ಜಿಲ್ಲೆ ಆಯ್ಕೆಮಾಡಿ",
+          languagePrompt: "ನೀವು ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಲು ಬಯಸುತ್ತೀರಾ",
+          recommendationsIn: "📝 ಶಿಫಾರಸುಗಳು",
+          climateSuitability: "🌍 ಹವಾಮಾನ ಸೂಕ್ತತೆ",
+          waterRequirements: "💧 ನೀರಿನ ಅವಶ್ಯಕತೆಗಳು",
+          growthCycle: "🌱 ಬೆಳವಣಿಗೆ ಚಕ್ರ",
+          benefitsProfitability: "💰 ಪ್ರಯೋಜನಗಳು ಮತ್ತು ಲಾಭದಾಯಕತೆ",
+          cultivationPractices: "🌾 ಕೃಷಿ ಪದ್ಧತಿಗಳು",
+          duration: "ಅವಧಿ",
+          growthStages: "ಬೆಳವಣಿಗೆ ಹಂತಗಳು",
+          criticalPeriods: "ನಿರ್ಣಾಯಕ ಅವಧಿಗಳು",
+          yieldPotential: "ಇಳುವರಿ ಸಾಮರ್ಥ್ಯ",
+          marketDemand: "ಮಾರುಕಟ್ಟೆ ಬೇಡಿಕೆ",
+          profitability: "ಲಾಭದಾಯಕತೆ",
+          nutritionalValue: "ಪೌಷ್ಟಿಕಾಂಶ ಮೌಲ್ಯ",
+          otherBenefits: "ಇತರ ಪ್ರಯೋಜನಗಳು",
+          sowingTime: "ಬಿತ್ತನೆ ಸಮಯ",
+          seedRate: "ಬೀಜ ದರ",
+          spacing: "ಅಂತರ",
+          fertilizers: "ಗೊಬ್ಬರಗಳು",
+          pestDiseases: "ಕೀಟಗಳು ಮತ್ತು ರೋಗಗಳು",
+          infoNotAvailable: "ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ",
+          aiResponse: "📝 AI ಪ್ರತಿಕ್ರಿಯೆ"
+        },
+        malayalam: {
+          headerTitle: "🌾 കൃത്രിമ ബുദ്ധി വിള ഉപദേഷ്ടാവ്",
+          headerSubtitle: "മുഴുവൻ ഇന്ത്യയ്ക്കും സ്മാർട്ട് കൃഷി പരിഹാരങ്ങൾ - 31 സംസ്ഥാനങ്ങളും കേന്ദ്രഭരണ പ്രദേശങ്ങളും",
+          labelName: "കർഷകന്റെ പേര്",
+          labelState: "സംസ്ഥാനം",
+          labelDistrict: "ജില്ല",
+          labelSeason: "സീസൺ",
+          labelSoilType: "മണ്ണിന്റെ തരം",
+          labelIrrigation: "ജലസേചനം ലഭ്യമാണോ",
+          labelFarmSize: "കൃഷിയിടത്തിന്റെ വലുപ്പം (ഏക്കർ)",
+          labelBudget: "ബഡ്ജറ്റ് (₹)",
+          labelPreviousCrop: "മുൻ വിള (ഓപ്ഷണൽ)",
+          placeholderName: "നിങ്ങളുടെ പേര് നൽകുക",
+          placeholderFarmSize: "ഉദാ., 2.5",
+          placeholderBudget: "ഓപ്ഷണൽ",
+          placeholderPreviousCrop: "ഉദാ., നെല്ല്, ഗോതമ്പ്",
+          optionSelectState: "സംസ്ഥാനം തിരഞ്ഞെടുക്കുക",
+          optionFirstSelectState: "ആദ്യം സംസ്ഥാനം തിരഞ്ഞെടുക്കുക",
+          optionSelectSeason: "സീസൺ തിരഞ്ഞെടുക്കുക",
+          optionKharif: "ഖരീഫ് (മൺസൂൺ)",
+          optionRabi: "റാബി (ശീതകാലം)",
+          optionZaid: "സായിദ് (വേനൽ)",
+          optionSelectSoilType: "മണ്ണിന്റെ തരം തിരഞ്ഞെടുക്കുക",
+          optionYes: "അതെ",
+          optionNo: "ഇല്ല",
+          optionPartial: "ഭാഗികം",
+          btnText: "🔍 AI ശുപാർശകൾ നേടുക",
+          loadingText: "🤖 നിങ്ങളുടെ കൃഷിയിട ഡാറ്റ വിശകലനം ചെയ്യുന്നു...",
+          optionSelectDistrict: "ജില്ല തിരഞ്ഞെടുക്കുക",
+          languagePrompt: "നിങ്ങൾക്ക് ശുപാർശകൾ ലഭിക്കാൻ താൽപ്പര്യമുണ്ടോ",
+          recommendationsIn: "📝 ശുപാർശകൾ",
+          climateSuitability: "🌍 കാലാവസ്ഥ അനുയോജ്യത",
+          waterRequirements: "💧 ജല ആവശ്യകതകൾ",
+          growthCycle: "🌱 വളർച്ച ചക്രം",
+          benefitsProfitability: "💰 നേട്ടങ്ങളും ലാഭകരതയും",
+          cultivationPractices: "🌾 കൃഷി രീതികൾ",
+          duration: "കാലാവധി",
+          growthStages: "വളർച്ച ഘട്ടങ്ങൾ",
+          criticalPeriods: "നിർണായക കാലഘട്ടങ്ങൾ",
+          yieldPotential: "വിളവ് സാധ്യത",
+          marketDemand: "വിപണി ആവശ്യം",
+          profitability: "ലാഭകരത",
+          nutritionalValue: "പോഷക മൂല്യം",
+          otherBenefits: "മറ്റ് നേട്ടങ്ങൾ",
+          sowingTime: "വിതയ്ക്കൽ സമയം",
+          seedRate: "വിത്ത് നിരക്ക്",
+          spacing: "അകലം",
+          fertilizers: "വളങ്ങൾ",
+          pestDiseases: "കീടങ്ങളും രോഗങ്ങളും",
+          infoNotAvailable: "വിവരങ്ങൾ ലഭ്യമല്ല",
+          aiResponse: "📝 AI പ്രതികരണം"
+        },
+        marathi: {
+          headerTitle: "🌾 कृत्रिम बुद्धिमत्ता पीक सल्लागार",
+          headerSubtitle: "संपूर्ण भारतासाठी स्मार्ट शेती उपाय - 31 राज्ये आणि केंद्रशासित प्रदेश",
+          labelName: "शेतकऱ्याचे नाव",
+          labelState: "राज्य",
+          labelDistrict: "जिल्हा",
+          labelSeason: "हंगाम",
+          labelSoilType: "मातीचा प्रकार",
+          labelIrrigation: "सिंचन उपलब्ध",
+          labelFarmSize: "शेताचा आकार (एकर)",
+          labelBudget: "बजेट (₹)",
+          labelPreviousCrop: "मागील पीक (पर्यायी)",
+          placeholderName: "तुमचे नाव प्रविष्ट करा",
+          placeholderFarmSize: "उदा., 2.5",
+          placeholderBudget: "पर्यायी",
+          placeholderPreviousCrop: "उदा., तांदूळ, गहू",
+          optionSelectState: "राज्य निवडा",
+          optionFirstSelectState: "प्रथम राज्य निवडा",
+          optionSelectSeason: "हंगाम निवडा",
+          optionKharif: "खरीप (पावसाळा)",
+          optionRabi: "रब्बी (हिवाळा)",
+          optionZaid: "झाइद (उन्हाळा)",
+          optionSelectSoilType: "मातीचा प्रकार निवडा",
+          optionYes: "होय",
+          optionNo: "नाही",
+          optionPartial: "अंशतः",
+          btnText: "🔍 AI शिफारसी मिळवा",
+          loadingText: "🤖 तुमच्या शेताच्या डेटाचे विश्लेषण करत आहे...",
+          optionSelectDistrict: "जिल्हा निवडा",
+          languagePrompt: "तुम्हाला शिफारसी मिळवायच्या आहेत का",
+          recommendationsIn: "📝 शिफारसी",
+          climateSuitability: "🌍 हवामान योग्यता",
+          waterRequirements: "💧 पाण्याच्या गरजा",
+          growthCycle: "🌱 वाढीचे चक्र",
+          benefitsProfitability: "💰 फायदे आणि नफा",
+          cultivationPractices: "🌾 लागवड पद्धती",
+          duration: "कालावधी",
+          growthStages: "वाढीचे टप्पे",
+          criticalPeriods: "महत्त्वाचे कालखंड",
+          yieldPotential: "उत्पादन क्षमता",
+          marketDemand: "बाजार मागणी",
+          profitability: "नफा",
+          nutritionalValue: "पौष्टिक मूल्य",
+          otherBenefits: "इतर फायदे",
+          sowingTime: "पेरणीची वेळ",
+          seedRate: "बियाणे दर",
+          spacing: "अंतर",
+          fertilizers: "खते",
+          pestDiseases: "किडे आणि रोग",
+          infoNotAvailable: "माहिती उपलब्ध नाही",
+          aiResponse: "📝 AI प्रतिसाद"
+        },
+        bengali: {
+          headerTitle: "🌾 কৃত্রিম বুদ্ধিমত্তা ফসল পরামর্শদাতা",
+          headerSubtitle: "সমগ্র ভারতের জন্য স্মার্ট কৃষি সমাধান - 31টি রাজ্য এবং কেন্দ্রশাসিত অঞ্চল",
+          labelName: "কৃষকের নাম",
+          labelState: "রাজ্য",
+          labelDistrict: "জেলা",
+          labelSeason: "মৌসুম",
+          labelSoilType: "মাটির ধরন",
+          labelIrrigation: "সেচ সুবিধা আছে",
+          labelFarmSize: "জমির আকার (একর)",
+          labelBudget: "বাজেট (₹)",
+          labelPreviousCrop: "পূর্ববর্তী ফসল (ঐচ্ছিক)",
+          placeholderName: "আপনার নাম লিখুন",
+          placeholderFarmSize: "যেমন, 2.5",
+          placeholderBudget: "ঐচ্ছিক",
+          placeholderPreviousCrop: "যেমন, ধান, গম",
+          optionSelectState: "রাজ্য নির্বাচন করুন",
+          optionFirstSelectState: "প্রথমে রাজ্য নির্বাচন করুন",
+          optionSelectSeason: "মৌসুম নির্বাচন করুন",
+          optionKharif: "খরিফ (বর্ষা)",
+          optionRabi: "রবি (শীত)",
+          optionZaid: "জায়েদ (গ্রীষ্ম)",
+          optionSelectSoilType: "মাটির ধরন নির্বাচন করুন",
+          optionYes: "হ্যাঁ",
+          optionNo: "না",
+          optionPartial: "আংশিক",
+          btnText: "🔍 AI সুপারিশ পান",
+          loadingText: "🤖 আপনার জমির ডেটা বিশ্লেষণ করা হচ্ছে...",
+          optionSelectDistrict: "জেলা নির্বাচন করুন",
+          languagePrompt: "আপনি কি সুপারিশ পেতে চান",
+          recommendationsIn: "📝 সুপারিশসমূহ",
+          climateSuitability: "🌍 জলবায়ু উপযুক্ততা",
+          waterRequirements: "💧 জলের প্রয়োজন",
+          growthCycle: "🌱 বৃদ্ধির চক্র",
+          benefitsProfitability: "💰 সুবিধা এবং লাভজনকতা",
+          cultivationPractices: "🌾 চাষাবাদ পদ্ধতি",
+          duration: "সময়কাল",
+          growthStages: "বৃদ্ধির পর্যায়",
+          criticalPeriods: "গুরুত্বপূর্ণ সময়কাল",
+          yieldPotential: "ফলন সম্ভাবনা",
+          marketDemand: "বাজার চাহিদা",
+          profitability: "লাভজনকতা",
+          nutritionalValue: "পুষ্টি মূল্য",
+          otherBenefits: "অন্যান্য সুবিধা",
+          sowingTime: "বপনের সময়",
+          seedRate: "বীজের হার",
+          spacing: "দূরত্ব",
+          fertilizers: "সার",
+          pestDiseases: "পোকামাকড় ও রোগ",
+          infoNotAvailable: "তথ্য উপলব্ধ নেই",
+          aiResponse: "📝 AI প্রতিক্রিয়া"
+        },
+        gujarati: {
+          headerTitle: "🌾 કૃત્રિમ બુદ્ધિ પાક સલાહકાર",
+          headerSubtitle: "સમગ્ર ભારત માટે સ્માર્ટ ખેતી ઉકેલો - 31 રાજ્યો અને કેન્દ્ર શાસિત પ્રદેશો",
+          labelName: "ખેડૂતનું નામ",
+          labelState: "રાજ્ય",
+          labelDistrict: "જિલ્લો",
+          labelSeason: "મોસમ",
+          labelSoilType: "માટીનો પ્રકાર",
+          labelIrrigation: "સિંચાઈ ઉપલબ્ધ",
+          labelFarmSize: "ખેતરનું કદ (એકર)",
+          labelBudget: "બજેટ (₹)",
+          labelPreviousCrop: "અગાઉનો પાક (વૈકલ્પિક)",
+          placeholderName: "તમારું નામ દાખલ કરો",
+          placeholderFarmSize: "ઉદા., 2.5",
+          placeholderBudget: "વૈકલ્પિક",
+          placeholderPreviousCrop: "ઉદા., ચોખા, ઘઉં",
+          optionSelectState: "રાજ્ય પસંદ કરો",
+          optionFirstSelectState: "પહેલા રાજ્ય પસંદ કરો",
+          optionSelectSeason: "મોસમ પસંદ કરો",
+          optionKharif: "ખરીફ (ચોમાસું)",
+          optionRabi: "રબી (શિયાળો)",
+          optionZaid: "ઝાઈદ (ઉનાળો)",
+          optionSelectSoilType: "માટીનો પ્રકાર પસંદ કરો",
+          optionYes: "હા",
+          optionNo: "ના",
+          optionPartial: "આંશિક",
+          btnText: "🔍 AI ભલામણો મેળવો",
+          loadingText: "🤖 તમારા ખેતરના ડેટાનું વિશ્લેષણ કરી રહ્યા છીએ...",
+          optionSelectDistrict: "જિલ્લો પસંદ કરો",
+          languagePrompt: "શું તમે ભલામણો મેળવવા માંગો છો",
+          recommendationsIn: "📝 ભલામણો",
+          climateSuitability: "🌍 આબોહવા યોગ્યતા",
+          waterRequirements: "💧 પાણીની જરૂરિયાતો",
+          growthCycle: "🌱 વૃદ્ધિ ચક્ર",
+          benefitsProfitability: "💰 લાભો અને નફાકારકતા",
+          cultivationPractices: "🌾 ખેતી પદ્ધતિઓ",
+          duration: "અવધિ",
+          growthStages: "વૃદ્ધિ તબક્કાઓ",
+          criticalPeriods: "નિર્ણાયક સમયગાળો",
+          yieldPotential: "ઉપજ ક્ષમતા",
+          marketDemand: "બજાર માંગ",
+          profitability: "નફાકારકતા",
+          nutritionalValue: "પોષણ મૂલ્ય",
+          otherBenefits: "અન્ય લાભો",
+          sowingTime: "વાવણીનો સમય",
+          seedRate: "બીજ દર",
+          spacing: "અંતર",
+          fertilizers: "ખાતરો",
+          pestDiseases: "જીવાત અને રોગો",
+          infoNotAvailable: "માહિતી ઉપલબ્ધ નથી",
+          aiResponse: "📝 AI પ્રતિસાદ"
+        },
+        punjabi: {
+          headerTitle: "🌾 ਆਰਟੀਫਿਸ਼ੀਅਲ ਇੰਟੈਲੀਜੈਂਸ ਫਸਲ ਸਲਾਹਕਾਰ",
+          headerSubtitle: "ਪੂਰੇ ਭਾਰਤ ਲਈ ਸਮਾਰਟ ਖੇਤੀਬਾੜੀ ਹੱਲ - 31 ਰਾਜ ਅਤੇ ਕੇਂਦਰ ਸ਼ਾਸਤ ਪ੍ਰਦੇਸ਼",
+          labelName: "ਕਿਸਾਨ ਦਾ ਨਾਮ",
+          labelState: "ਰਾਜ",
+          labelDistrict: "ਜ਼ਿਲ੍ਹਾ",
+          labelSeason: "ਮੌਸਮ",
+          labelSoilType: "ਮਿੱਟੀ ਦੀ ਕਿਸਮ",
+          labelIrrigation: "ਸਿੰਚਾਈ ਉਪਲਬਧ",
+          labelFarmSize: "ਖੇਤ ਦਾ ਆਕਾਰ (ਏਕੜ)",
+          labelBudget: "ਬਜਟ (₹)",
+          labelPreviousCrop: "ਪਿਛਲੀ ਫਸਲ (ਵਿਕਲਪਿਕ)",
+          placeholderName: "ਆਪਣਾ ਨਾਮ ਦਾਖਲ ਕਰੋ",
+          placeholderFarmSize: "ਜਿਵੇਂ, 2.5",
+          placeholderBudget: "ਵਿਕਲਪਿਕ",
+          placeholderPreviousCrop: "ਜਿਵੇਂ, ਝੋਨਾ, ਕਣਕ",
+          optionSelectState: "ਰਾਜ ਚੁਣੋ",
+          optionFirstSelectState: "ਪਹਿਲਾਂ ਰਾਜ ਚੁਣੋ",
+          optionSelectSeason: "ਮੌਸਮ ਚੁਣੋ",
+          optionKharif: "ਖਰੀਫ (ਮਾਨਸੂਨ)",
+          optionRabi: "ਰਬੀ (ਸਰਦੀ)",
+          optionZaid: "ਜ਼ਾਇਦ (ਗਰਮੀ)",
+          optionSelectSoilType: "ਮਿੱਟੀ ਦੀ ਕਿਸਮ ਚੁਣੋ",
+          optionYes: "ਹਾਂ",
+          optionNo: "ਨਹੀਂ",
+          optionPartial: "ਅੰਸ਼ਕ",
+          btnText: "🔍 AI ਸਿਫਾਰਸ਼ਾਂ ਪ੍ਰਾਪਤ ਕਰੋ",
+          loadingText: "🤖 ਤੁਹਾਡੇ ਖੇਤ ਦੇ ਡੇਟਾ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+          optionSelectDistrict: "ਜ਼ਿਲ੍ਹਾ ਚੁਣੋ",
+          languagePrompt: "ਕੀ ਤੁਸੀਂ ਸਿਫਾਰਸ਼ਾਂ ਪ੍ਰਾਪਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ",
+          recommendationsIn: "📝 ਸਿਫਾਰਸ਼ਾਂ",
+          climateSuitability: "🌍 ਜਲਵਾਯੂ ਅਨੁਕੂਲਤਾ",
+          waterRequirements: "💧 ਪਾਣੀ ਦੀਆਂ ਲੋੜਾਂ",
+          growthCycle: "🌱 ਵਿਕਾਸ ਚੱਕਰ",
+          benefitsProfitability: "💰 ਲਾਭ ਅਤੇ ਮੁਨਾਫਾ",
+          cultivationPractices: "🌾 ਖੇਤੀ ਦੇ ਤਰੀਕੇ",
+          duration: "ਮਿਆਦ",
+          growthStages: "ਵਿਕਾਸ ਪੜਾਅ",
+          criticalPeriods: "ਨਾਜ਼ੁਕ ਸਮਾਂ",
+          yieldPotential: "ਉਪਜ ਸੰਭਾਵਨਾ",
+          marketDemand: "ਬਾਜ਼ਾਰ ਦੀ ਮੰਗ",
+          profitability: "ਮੁਨਾਫਾ",
+          nutritionalValue: "ਪੋਸ਼ਣ ਮੁੱਲ",
+          otherBenefits: "ਹੋਰ ਲਾਭ",
+          sowingTime: "ਬੀਜਣ ਦਾ ਸਮਾਂ",
+          seedRate: "ਬੀਜ ਦਰ",
+          spacing: "ਦੂਰੀ",
+          fertilizers: "ਖਾਦ",
+          pestDiseases: "ਕੀੜੇ ਅਤੇ ਬਿਮਾਰੀਆਂ",
+          infoNotAvailable: "ਜਾਣਕਾਰੀ ਉਪਲਬਧ ਨਹੀਂ",
+          aiResponse: "📝 AI ਜਵਾਬ"
+        },
+        odia: {
+          headerTitle: "🌾 କୃତ୍ରିମ ବୁଦ୍ଧିମତା ଫସଲ ପରାମର୍ଶଦାତା",
+          headerSubtitle: "ସମଗ୍ର ଭାରତ ପାଇଁ ସ୍ମାର୍ଟ କୃଷି ସମାଧାନ - 31 ରାଜ୍ୟ ଏବଂ କେନ୍ଦ୍ରଶାସିତ ଅଞ୍ଚଳ",
+          labelName: "କୃଷକଙ୍କ ନାମ",
+          labelState: "ରାଜ୍ୟ",
+          labelDistrict: "ଜିଲ୍ଲା",
+          labelSeason: "ଋତୁ",
+          labelSoilType: "ମାଟିର ପ୍ରକାର",
+          labelIrrigation: "ଜଳସେଚନ ଉପଲବ୍ଧ",
+          labelFarmSize: "ଜମିର ଆକାର (ଏକର)",
+          labelBudget: "ବଜେଟ୍ (₹)",
+          labelPreviousCrop: "ପୂର୍ବ ଫସଲ (ଇଚ୍ଛାଧୀନ)",
+          placeholderName: "ଆପଣଙ୍କ ନାମ ପ୍ରବେଶ କରନ୍ତୁ",
+          placeholderFarmSize: "ଯଥା, 2.5",
+          placeholderBudget: "ଇଚ୍ଛାଧୀନ",
+          placeholderPreviousCrop: "ଯଥା, ଚାଉଳ, ଗହମ",
+          optionSelectState: "ରାଜ୍ୟ ଚୟନ କରନ୍ତୁ",
+          optionFirstSelectState: "ପ୍ରଥମେ ରାଜ୍ୟ ଚୟନ କରନ୍ତୁ",
+          optionSelectSeason: "ଋତୁ ଚୟନ କରନ୍ତୁ",
+          optionKharif: "ଖରିଫ (ମୌସୁମୀ)",
+          optionRabi: "ରବି (ଶୀତ)",
+          optionZaid: "ଜାଏଦ (ଗ୍ରୀଷ୍ମ)",
+          optionSelectSoilType: "ମାଟିର ପ୍ରକାର ଚୟନ କରନ୍ତୁ",
+          optionYes: "ହଁ",
+          optionNo: "ନା",
+          optionPartial: "ଆଂଶିକ",
+          btnText: "🔍 AI ସୁପାରିଶ ପାଆନ୍ତୁ",
+          loadingText: "🤖 ଆପଣଙ୍କ ଜମିର ତଥ୍ୟ ବିଶ୍ଳେଷଣ କରାଯାଉଛି...",
+          optionSelectDistrict: "ଜିଲ୍ଲା ଚୟନ କରନ୍ତୁ",
+          languagePrompt: "ଆପଣ ସୁପାରିଶ ପାଇବାକୁ ଚାହୁଁଛନ୍ତି କି",
+          recommendationsIn: "📝 ସୁପାରିଶଗୁଡିକ",
+          climateSuitability: "🌍 ଜଳବାୟୁ ଉପଯୁକ୍ତତା",
+          waterRequirements: "💧 ଜଳ ଆବଶ୍ୟକତା",
+          growthCycle: "🌱 ବୃଦ୍ଧି ଚକ୍ର",
+          benefitsProfitability: "💰 ଲାଭ ଏବଂ ଲାଭଦାୟକତା",
+          cultivationPractices: "🌾 ଚାଷ ପ୍ରଣାଳୀ",
+          duration: "ଅବଧି",
+          growthStages: "ବୃଦ୍ଧି ପର୍ଯ୍ୟାୟ",
+          criticalPeriods: "ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଅବଧି",
+          yieldPotential: "ଅମଳ ସମ୍ଭାବନା",
+          marketDemand: "ବଜାର ମାଗ",
+          profitability: "ଲାଭଦାୟକତା",
+          nutritionalValue: "ପୋଷଣ ମୂଲ୍ୟ",
+          otherBenefits: "ଅନ୍ୟାନ୍ୟ ଲାଭ",
+          sowingTime: "ବୁଣିବା ସମୟ",
+          seedRate: "ବିହନ ହାର",
+          spacing: "ଦୂରତା",
+          fertilizers: "ସାର",
+          pestDiseases: "କୀଟ ଏବଂ ରୋଗ",
+          infoNotAvailable: "ସୂଚନା ଉପଲବ୍ଧ ନାହିଁ",
+          aiResponse: "📝 AI ପ୍ରତିକ୍ରିୟା"
+        },
+        assamese: {
+          headerTitle: "🌾 কৃত্ৰিম বুদ্ধিমত্তা শস্য পৰামৰ্শদাতা",
+          headerSubtitle: "সমগ্ৰ ভাৰতৰ বাবে স্মাৰ্ট কৃষি সমাধান - 31 খন ৰাজ্য আৰু কেন্দ্ৰীয় শাসিত অঞ্চল",
+          labelName: "কৃষকৰ নাম",
+          labelState: "ৰাজ্য",
+          labelDistrict: "জিলা",
+          labelSeason: "ঋতু",
+          labelSoilType: "মাটিৰ প্ৰকাৰ",
+          labelIrrigation: "জলসিঞ্চন উপলব্ধ",
+          labelFarmSize: "খেতিৰ আকাৰ (একৰ)",
+          labelBudget: "বাজেট (₹)",
+          labelPreviousCrop: "পূৰ্বৰ শস্য (ঐচ্ছিক)",
+          placeholderName: "আপোনাৰ নাম লিখক",
+          placeholderFarmSize: "যেনে, 2.5",
+          placeholderBudget: "ঐচ্ছিক",
+          placeholderPreviousCrop: "যেনে, ধান, ঘেঁহু",
+          optionSelectState: "ৰাজ্য বাছনি কৰক",
+          optionFirstSelectState: "প্ৰথমে ৰাজ্য বাছনি কৰক",
+          optionSelectSeason: "ঋতু বাছনি কৰক",
+          optionKharif: "খৰিফ (বৰষুণ)",
+          optionRabi: "ৰবি (শীত)",
+          optionZaid: "জায়েদ (গ্ৰীষ্ম)",
+          optionSelectSoilType: "মাটিৰ প্ৰকাৰ বাছনি কৰক",
+          optionYes: "হয়",
+          optionNo: "নহয়",
+          optionPartial: "আংশিক",
+          btnText: "🔍 AI পৰামৰ্শ লাভ কৰক",
+          loadingText: "🤖 আপোনাৰ খেতিৰ তথ্য বিশ্লেষণ কৰা হৈছে...",
+          optionSelectDistrict: "জিলা বাছনি কৰক",
+          languagePrompt: "আপুনি পৰামৰ্শ লাভ কৰিব বিচাৰে নেকি",
+          recommendationsIn: "📝 পৰামৰ্শসমূহ",
+          climateSuitability: "🌍 জলবায়ু উপযুক্ততা",
+          waterRequirements: "💧 পানীৰ প্ৰয়োজন",
+          growthCycle: "🌱 বৃদ্ধিৰ চক্ৰ",
+          benefitsProfitability: "💰 লাভ আৰু লাভজনকতা",
+          cultivationPractices: "🌾 খেতি পদ্ধতি",
+          duration: "সময়কাল",
+          growthStages: "বৃদ্ধিৰ পৰ্যায়",
+          criticalPeriods: "গুৰুত্বপূৰ্ণ সময়কাল",
+          yieldPotential: "উৎপাদন সম্ভাৱনা",
+          marketDemand: "বজাৰ চাহিদা",
+          profitability: "লাভজনকতা",
+          nutritionalValue: "পুষ্টি মূল্য",
+          otherBenefits: "অন্যান্য লাভ",
+          sowingTime: "সিঁচাৰ সময়",
+          seedRate: "বীজৰ হাৰ",
+          spacing: "দূৰত্ব",
+          fertilizers: "সাৰ",
+          pestDiseases: "কীট-পতংগ আৰু ৰোগ",
+          infoNotAvailable: "তথ্য উপলব্ধ নহয়",
+          aiResponse: "📝 AI প্ৰতিক্ৰিয়া"
+        },
+        konkani: {
+          headerTitle: "🌾 कृत्रिम बुद्धिमत्ता पीक सल्लागार",
+          headerSubtitle: "संपूर्ण भारताखातीर स्मार्ट शेती उपाय - 31 राज्य आनी केंद्रशासित प्रदेश",
+          labelName: "शेतकाऱ्याचें नांव",
+          labelState: "राज्य",
+          labelDistrict: "जिल्लो",
+          labelSeason: "हंगाम",
+          labelSoilType: "मातयेचो प्रकार",
+          labelIrrigation: "उदकशेत उपलब्ध",
+          labelFarmSize: "शेताचो आकार (एकर)",
+          labelBudget: "अंदाजपत्र (₹)",
+          labelPreviousCrop: "आदलें पीक (पर्यायी)",
+          placeholderName: "तुमचें नांव घाला",
+          placeholderFarmSize: "देखीक, 2.5",
+          placeholderBudget: "पर्यायी",
+          placeholderPreviousCrop: "देखीक, तांदूळ, गंव",
+          optionSelectState: "राज्य निवडात",
+          optionFirstSelectState: "पयलीं राज्य निवडात",
+          optionSelectSeason: "हंगाम निवडात",
+          optionKharif: "खरीप (पावस)",
+          optionRabi: "रब्बी (थंड)",
+          optionZaid: "झाइद (उन्हाळो)",
+          optionSelectSoilType: "मातयेचो प्रकार निवडात",
+          optionYes: "हय",
+          optionNo: "ना",
+          optionPartial: "अंशतः",
+          btnText: "🔍 AI शिफारसी मेळयात",
+          loadingText: "🤖 तुमच्या शेताचो डेटा विश्लेषण करतात...",
+          optionSelectDistrict: "जिल्लो निवडात",
+          languagePrompt: "तुमकां शिफारसी मेळोवंक जाय",
+          recommendationsIn: "📝 शिफारसी",
+          climateSuitability: "🌍 हवामान योग्यताय",
+          waterRequirements: "💧 उदकाच्यो गरजो",
+          growthCycle: "🌱 वाड चक्र",
+          benefitsProfitability: "💰 फायदे आनी नफो",
+          cultivationPractices: "🌾 शेती पद्धती",
+          duration: "काळावधी",
+          growthStages: "वाडचे टप्पे",
+          criticalPeriods: "म्हत्वाचे काळ",
+          yieldPotential: "उत्पन्न शक्यताय",
+          marketDemand: "बाजार मागणी",
+          profitability: "नफो",
+          nutritionalValue: "पोषक मोल",
+          otherBenefits: "हेर फायदे",
+          sowingTime: "पेरणीचो वेळ",
+          seedRate: "बी दर",
+          spacing: "अंतर",
+          fertilizers: "खतां",
+          pestDiseases: "किडे आनी रोग",
+          infoNotAvailable: "म्हायती उपलब्ध ना",
+          aiResponse: "📝 AI प्रतिसाद"
+        }
+      };
+
+      const form = document.getElementById('farmerForm');
+      const loading = document.getElementById('loading');
+      const results = document.getElementById('results');
+      const submitBtn = document.getElementById('submitBtn');
+      const stateSelect = document.getElementById('stateSelect');
+      const districtSelect = document.getElementById('districtSelect');
+      const languageSelect = document.getElementById('languageSelect');
+      const languageInput = document.getElementById('languageInput');
+      
+      let statesData = null;
+      let districtsData = null;
+      let languagesData = null;
+      let stateLanguageMap = null;
+      let currentLanguage = 'english';
+
+      // Update UI with translations
+      function updateUILanguage(lang) {
+        const t = translations[lang] || translations.english;
+        currentLanguage = lang;
+        
+        // Update header
+        document.getElementById('headerTitle').textContent = t.headerTitle;
+        document.getElementById('headerSubtitle').textContent = t.headerSubtitle;
+        
+        // Update form labels (only the text part, keep icons)
+        document.querySelector('#labelName .label-text').textContent = t.labelName;
+        document.querySelector('#labelState .label-text').textContent = t.labelState;
+        document.querySelector('#labelDistrict .label-text').textContent = t.labelDistrict;
+        document.querySelector('#labelSeason .label-text').textContent = t.labelSeason;
+        document.querySelector('#labelSoilType .label-text').textContent = t.labelSoilType;
+        document.querySelector('#labelIrrigation .label-text').textContent = t.labelIrrigation;
+        document.querySelector('#labelFarmSize .label-text').textContent = t.labelFarmSize;
+        document.querySelector('#labelBudget .label-text').textContent = t.labelBudget;
+        document.querySelector('#labelPreviousCrop .label-text').textContent = t.labelPreviousCrop;
+        
+        // Update placeholders
+        document.getElementById('inputName').placeholder = t.placeholderName;
+        document.getElementById('inputFarmSize').placeholder = t.placeholderFarmSize;
+        document.getElementById('inputBudget').placeholder = t.placeholderBudget;
+        document.getElementById('inputPreviousCrop').placeholder = t.placeholderPreviousCrop;
+        
+        // Update select options
+        document.getElementById('optionSelectState').textContent = t.optionSelectState;
+        document.getElementById('optionFirstSelectState').textContent = t.optionFirstSelectState;
+        document.getElementById('optionSelectSeason').textContent = t.optionSelectSeason;
+        document.getElementById('optionKharif').textContent = t.optionKharif;
+        document.getElementById('optionRabi').textContent = t.optionRabi;
+        document.getElementById('optionZaid').textContent = t.optionZaid;
+        document.getElementById('optionSelectSoilType').textContent = t.optionSelectSoilType;
+        document.getElementById('optionYes').textContent = t.optionYes;
+        document.getElementById('optionNo').textContent = t.optionNo;
+        document.getElementById('optionPartial').textContent = t.optionPartial;
+        
+        // Update button and loading text
+        document.getElementById('btnText').textContent = t.btnText;
+        document.getElementById('loadingText').textContent = t.loadingText;
+        
+        // Update district select if it has the default option
+        if (districtSelect.disabled) {
+          districtSelect.innerHTML = `<option value="">${t.optionFirstSelectState}</option>`;
+        }
+      }
+
+      // Load states, districts, and languages
+      async function loadStatesAndDistricts() {
+        try {
+          const response = await fetch('/states');
+          const data = await response.json();
+          statesData = data.states;
+          districtsData = data.districts;
+          languagesData = data.languages;
+          stateLanguageMap = data.state_language_map;
+          
+          // Populate language dropdown
+          languageSelect.innerHTML = '<option value="english">🌐 English</option>';
+          Object.entries(languagesData).forEach(([code, info]) => {
+            if (code !== 'english') {
+              const option = document.createElement('option');
+              option.value = code;
+              option.textContent = `${info.native} (${info.name})`;
+              languageSelect.appendChild(option);
+            }
+          });
+          
+          // Populate state dropdown
+          const t = translations[currentLanguage];
+          statesData.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+          });
+        } catch (error) {
+          console.error('Failed to load data:', error);
+        }
+      }
+
+      // Auto-suggest language based on state
+      stateSelect.addEventListener('change', function() {
+        const selectedState = this.value;
+        const t = translations[currentLanguage];
+        
+        districtSelect.innerHTML = `<option value="">${t.optionSelectDistrict}</option>`;
+        
+        if (selectedState && districtsData && districtsData[selectedState]) {
+          districtSelect.disabled = false;
+          districtsData[selectedState].forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+          });
+          
+          // Auto-suggest language
+          if (stateLanguageMap && stateLanguageMap[selectedState]) {
+            const suggestedLang = stateLanguageMap[selectedState];
+            const langName = languagesData[suggestedLang];
+            if (confirm(`${t.languagePrompt} ${langName.native} (${langName.name})?`)) {
+              languageSelect.value = suggestedLang;
+              languageInput.value = suggestedLang;
+              updateUILanguage(suggestedLang);
+            }
+          }
+        } else {
+          districtSelect.disabled = true;
+          districtSelect.innerHTML = `<option value="">${t.optionFirstSelectState}</option>`;
+        }
+      });
+
+      // Update language when selection changes
+      languageSelect.addEventListener('change', function() {
+        const selectedLang = this.value;
+        languageInput.value = selectedLang;
+        updateUILanguage(selectedLang);
+      });
+
+      loadStatesAndDistricts();
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        loading.classList.add('active');
+        results.classList.remove('active');
+        results.innerHTML = '';
+        submitBtn.disabled = true;
+        
+        try {
+          const fd = new FormData(form);
+          const res = await fetch('/recommend', {method: 'POST', body: fd});
+          const json = await res.json();
+          
+          loading.classList.remove('active');
+          submitBtn.disabled = false;
+          
+          if (json.error) {
+            displayError(json.error);
+          } else {
+            displayResults(json);
+          }
+        } catch (error) {
+          loading.classList.remove('active');
+          submitBtn.disabled = false;
+          displayError('Failed to connect to server. Please try again. Error: ' + error.message);
+        }
+      });
+
+      function displayError(message) {
+        results.innerHTML = `<div class="error">❌ ${message}</div>`;
+        results.classList.add('active');
+      }
+
+      function displayResults(data) {
+        const t = translations[currentLanguage];
+        let html = '';
+        const selectedLang = languageSelect.value;
+        const langDisplay = languagesData[selectedLang]?.native || 'English';
+        
+        html += `<div style="text-align: center; margin-bottom: 20px; color: #667eea; font-weight: 600;">
+          ${t.recommendationsIn} <span class="language-indicator">${langDisplay}</span>
+        </div>`;
+        
+        if (data.ai_recommendation && data.ai_recommendation.recommended_crops) {
+          const crops = data.ai_recommendation.recommended_crops;
+          
+          crops.forEach((crop, index) => {
+            html += `
+              <div class="crop-card">
+                <div class="crop-header">
+                  <div class="crop-name">${index + 1}. ${crop.name}</div>
+                </div>
+                
+                <div class="section-title">${t.climateSuitability}</div>
+                <div class="detail-box">
+                  <div class="detail-value">${crop.climate_suitability || t.infoNotAvailable}</div>
+                </div>
+                
+                <div class="section-title">${t.waterRequirements}</div>
+                <div class="detail-box">
+                  <div class="detail-value">${crop.water_requirement || t.infoNotAvailable}</div>
+                </div>
+                
+                <div class="section-title">${t.growthCycle}</div>
+                <div class="growth-timeline">
+                  ${crop.growth_cycle ? `
+                    <div class="detail-label">${t.duration}</div>
+                    <div class="detail-value">${crop.growth_cycle.duration || 'N/A'}</div>
+                    <br>
+                    <div class="detail-label">${t.growthStages}</div>
+                    <div class="detail-value">${crop.growth_cycle.stages || 'N/A'}</div>
+                    <br>
+                    <div class="detail-label">${t.criticalPeriods}</div>
+                    <div class="detail-value">${crop.growth_cycle.critical_periods || 'N/A'}</div>
+                  ` : t.infoNotAvailable}
+                </div>
+                
+                <div class="section-title">${t.benefitsProfitability}</div>
+                <div class="benefit-list">
+                  ${crop.benefits ? `
+                    ${crop.benefits.yield_potential ? `
+                      <div class="benefit-item">
+                        <strong>${t.yieldPotential}:</strong> ${crop.benefits.yield_potential}
+                      </div>
+                    ` : ''}
+                    ${crop.benefits.market_demand ? `
+                      <div class="benefit-item">
+                        <strong>${t.marketDemand}:</strong> ${crop.benefits.market_demand}
+                      </div>
+                    ` : ''}
+                    ${crop.benefits.profitability ? `
+                      <div class="benefit-item">
+                        <strong>${t.profitability}:</strong> ${crop.benefits.profitability}
+                      </div>
+                    ` : ''}
+                    ${crop.benefits.nutritional_value ? `
+                      <div class="benefit-item">
+                        <strong>${t.nutritionalValue}:</strong> ${crop.benefits.nutritional_value}
+                      </div>
+                    ` : ''}
+                    ${crop.benefits.other_benefits ? `
+                      <div class="benefit-item">
+                        <strong>${t.otherBenefits}:</strong> ${crop.benefits.other_benefits}
+                      </div>
+                    ` : ''}
+                  ` : `<div class="detail-box">${t.infoNotAvailable}</div>`}
+                </div>
+                
+                <div class="section-title">${t.cultivationPractices}</div>
+                <div class="detail-box">
+                  ${crop.cultivation_practices ? `
+                    <div class="detail-label">${t.sowingTime}</div>
+                    <div class="detail-value">${crop.cultivation_practices.sowing_time || 'N/A'}</div>
+                    <br><br>
+                    <div class="detail-label">${t.seedRate}</div>
+                    <div class="detail-value">${crop.cultivation_practices.seed_rate || 'N/A'}</div>
+                    <br><br>
+                    <div class="detail-label">${t.spacing}</div>
+                    <div class="detail-value">${crop.cultivation_practices.spacing || 'N/A'}</div>
+                    <br><br>
+                    <div class="detail-label">${t.fertilizers}</div>
+                    <div class="detail-value">${crop.cultivation_practices.fertilizers || 'N/A'}</div>
+                    <br><br>
+                    <div class="detail-label">${t.pestDiseases}</div>
+                    <div class="detail-value">${crop.cultivation_practices.pest_diseases || 'N/A'}</div>
+                  ` : t.infoNotAvailable}
+                </div>
+              </div>
+            `;
+          });
+        } else if (data.ai_recommendation && data.ai_recommendation.raw_response) {
+          html += `
+            <div class="crop-card">
+              <div class="section-title">${t.aiResponse}</div>
+              <div class="detail-box">
+                <div class="detail-value" style="white-space: pre-wrap;">${data.ai_recommendation.raw_response}</div>
+              </div>
+            </div>
+          `;
+        }
+        
+        results.innerHTML = html;
+        results.classList.add('active');
+      }
+    </script>
+  </body>
+</html>
