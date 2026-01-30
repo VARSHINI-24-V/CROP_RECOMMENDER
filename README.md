@@ -1,4 +1,4 @@
-# SIH Jharkhand - AI-Based Crop Recommendation (Flask + Gemini)
+
 
 ## Setup
 ```bash
